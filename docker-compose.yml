@@ -11,5 +11,14 @@ services:
     volumes:
       - postgres-test-task_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:latest
+    container_name: redis-test-task
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-test-task_data:/data
+
 volumes:
   postgres-test-task_data:
+  redis-test-task_data:
