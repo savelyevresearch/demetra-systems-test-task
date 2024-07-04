@@ -4,7 +4,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { BullModule } from "@nestjs/bull";
-import { UserModule } from './user/user.module';
+import { UserModule } from "./user/user.module";
+import { CacheModule } from "@nestjs/cache-manager";
+import { RedisOptions } from "./app.config";
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { UserModule } from './user/user.module';
       },
     }),
     UserModule,
+    CacheModule.register({ isGlobal: true }),
+    CacheModule.registerAsync(RedisOptions),
   ],
   controllers: [AppController],
   providers: [AppService],
