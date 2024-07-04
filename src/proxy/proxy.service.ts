@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import * as https from "https";
+import * as http from "http";
 
 @Injectable()
 export class ProxyService {
@@ -21,7 +21,7 @@ export class ProxyService {
             password: this.configService.get<string>("PROXY_PASSWORD"),
           },
         },
-        httpAgent: new https.Agent({ keepAlive: true }),
+        httpAgent: new http.Agent({ keepAlive: true }),
       });
 
       return response.data;
