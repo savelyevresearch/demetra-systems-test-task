@@ -55,7 +55,7 @@ export class UserService {
     return user;
   }
 
-  async update(user: UserDto): Promise<User> {
-    return this.usersRepository.save(user);
+  async update(user: UserDto): Promise<void> {
+    await this.usersRepository.save(user);
   }
 }

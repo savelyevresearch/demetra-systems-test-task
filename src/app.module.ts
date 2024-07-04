@@ -7,6 +7,7 @@ import { BullModule } from "@nestjs/bull";
 import { UserModule } from "./user/user.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { RedisOptions } from "./app.config";
+import { User } from "./user/entities/user.entity";
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { RedisOptions } from "./app.config";
         username: configService.get<string>("DATABASE_USER"),
         password: configService.get<string>("DATABASE_PASSWORD"),
         database: configService.get<string>("DATABASE_NAME"),
-        entities: [__dirname + "/../**/*/.entity{.ts,.js}"],
+        entities: [User],
         synchronize: true,
       }),
       inject: [ConfigService],
