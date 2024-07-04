@@ -32,6 +32,12 @@ export class UserService {
   }
 
   async get(id: number) {
+    const cachedUser = await this.cacheManager.get(`user-${id}`);
+
+    if (cachedUser) {
+      return cachedUser;
+    }
+
     const user = await this.usersRepository.findOne({ where: { id } });
 
     if (!user) {
