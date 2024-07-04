@@ -4,6 +4,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { BullModule } from "@nestjs/bull";
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { BullModule } from "@nestjs/bull";
         port: Number(process.env.REDIS_PORT),
       },
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
