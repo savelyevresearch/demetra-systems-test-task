@@ -8,6 +8,8 @@ import { UserModule } from "./user/user.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { RedisOptions } from "./app.config";
 import { User } from "./user/entities/user.entity";
+import { ProxyService } from './proxy/proxy.service';
+import { ProxyModule } from './proxy/proxy.module';
 
 @Module({
   imports: [
@@ -35,8 +37,9 @@ import { User } from "./user/entities/user.entity";
     UserModule,
     CacheModule.register({ isGlobal: true }),
     CacheModule.registerAsync(RedisOptions),
+    ProxyModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ProxyService],
 })
 export class AppModule {}
