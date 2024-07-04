@@ -1,26 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+  constructor(@InjectRepository(User) private usersRepository: Repository<User>, @InjectQueue("user-status") private userStatusQueue: Queue) {}
 
-  findAll() {
-    return `This action returns all user`;
-  }
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    if (existingUser) {
+      throw new BadRequestException("ERR_USER_EMAIL_EXISTS");
+    }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    const user = this.usersRepository.create(createUserDto);
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    await this.usersRepository.save(user);
+
+    await this.userStatusQueue.add('update-status', { userId: user.id }, { delay: 10000 });
+
+    return user;
   }
 }
