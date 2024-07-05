@@ -8,8 +8,8 @@ import { UserModule } from "./user/user.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { RedisOptions } from "./app.config";
 import { User } from "./user/entities/user.entity";
-import { ProxyService } from './proxy/proxy.service';
-import { ProxyModule } from './proxy/proxy.module';
+import { ProxyService } from "./proxy/proxy.service";
+import { ProxyModule } from "./proxy/proxy.module";
 
 @Module({
   imports: [
