@@ -1,13 +1,12 @@
-// src/users/users.service.spec.ts
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule, getRepositoryToken } from "@nestjs/typeorm";
+import { getRepositoryToken } from "@nestjs/typeorm";
 import { UserService } from "./user.service";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { UserDto } from "./dto/user.dto";
 import { BullModule, getQueueToken } from "@nestjs/bull";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
-import Bull, { Queue } from "bull";
+import { Queue } from "bull";
 
 describe("UsersService", () => {
   let service: UserService;
