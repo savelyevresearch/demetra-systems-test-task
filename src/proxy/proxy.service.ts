@@ -2,9 +2,15 @@ import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
 import * as http from "http";
+import { AbstractProxyService } from "./proxy.abstract";
 
+/**
+ * @description Business-logic for proxy requests
+ * @class
+ * @implements { AbstractProxyService }
+ */
 @Injectable()
-export class ProxyService {
+export class ProxyService implements AbstractProxyService {
   private readonly logger = new Logger(ProxyService.name);
   private readonly host = this.configService.get<string>("PROXY_HOST");
   private readonly port = Number(this.configService.get<number>("PROXY_PORT"));
@@ -13,7 +19,21 @@ export class ProxyService {
 
   constructor(private readonly configService: ConfigService) {}
 
-  async sendRequest(method: string, url: string, data?: any): Promise<any> {
+  /**
+   * @description Sends a proxy request
+   * @method
+   * @public
+   * @async
+   * @param { string } method - Request method
+   * @param { string } url - URL
+   * @param { any } data? - Request body (optional)
+   * @returns { Promise<User> } - User data from database
+   */
+  public async sendRequest(
+    method: string,
+    url: string,
+    data?: any,
+  ): Promise<any> {
     this.logger.log(`
       Given credentials from .env file:
       - host: ${this.host}

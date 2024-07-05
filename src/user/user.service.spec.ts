@@ -8,12 +8,18 @@ import { BullModule, getQueueToken } from "@nestjs/bull";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Queue } from "bull";
 
+/**
+ * @description Tests for UserService
+ */
 describe("UsersService", () => {
   let service: UserService;
   let repository: Repository<User>;
   let cacheManager: any;
   let bullQueue: Queue;
 
+  /**
+   * @description Sets up the testing module with necessary mocks and dependencies.
+   */
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [BullModule.registerQueue({ name: "user-status" })],
@@ -49,14 +55,23 @@ describe("UsersService", () => {
     bullQueue = module.get(getQueueToken("user-status"));
   });
 
+  /**
+   * @description Clears mocks after each test
+   */
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  /**
+   * @description Tests if the UserService is defined
+   */
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
 
+  /**
+   * @description Tests if an error is thrown when creating a user with an existing email
+   */
   it("should create a new user", async () => {
     const createUserDto: UserDto = {
       name: "Test User",
@@ -73,6 +88,9 @@ describe("UsersService", () => {
     expect(newUser.password).toBe(createUserDto.password);
   });
 
+  /**
+   * @description Tests if a user is created successfully when the email does not exist
+   */
   it("should throw an error if email already exists", async () => {
     const createUserDto: UserDto = {
       name: "Test User",

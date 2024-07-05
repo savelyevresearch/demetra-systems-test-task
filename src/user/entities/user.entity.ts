@@ -1,5 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
+/**
+ * @description Data model for users
+ * @class
+ */
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn()

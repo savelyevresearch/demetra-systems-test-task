@@ -1,5 +1,9 @@
 import { IsNotEmpty, IsEmail, IsString, MinLength } from "class-validator";
 
+/**
+ * @description DTO for user object
+ * @class
+ */
 export class UserDto {
   @IsNotEmpty()
   @IsString()
